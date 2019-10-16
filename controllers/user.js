@@ -11,7 +11,9 @@ module.exports.getAllUsers = (req, res) => {
 module.exports.getUser = (req, res) => {
 	User.findById(req.params.id)
 		.then((user) => res.send({ data: user }))
-		.catch((err) => res.status(500).send({ message: `Возникла ошибка ${err.message}` }));
+		.catch((err, user) => {
+			if (!user) { res.status(404).send({ message: "Нет пользователя с таким id" }); } else res.status(500).send({ message: `Возникла ошибка ${err.message}` });
+		}); /* Добавлена обработка ошибки при запросе несуществующего пользователя */
 };
 
 /* Создаёт пользователя */
@@ -34,7 +36,7 @@ module.exports.renewUser = (req, res) => {
 			new: true,
 			runValidators: true,
 			upsert: true,
-		}
+		},
 	)
 		.then((user) => res.send({ data: user }))
 		.catch((err) => res.status(500).send({ message: `Возникла ошибка ${err.message}` }));
@@ -51,7 +53,7 @@ module.exports.renewUserAvatar = (req, res) => {
 			new: true,
 			runValidators: true,
 			upsert: true,
-		}
+		},
 	)
 		.then((user) => res.send({ data: user }))
 		.catch((err) => res.status(500).send({ message: `Возникла ошибка ${err.message}` }));

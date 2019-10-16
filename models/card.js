@@ -8,8 +8,8 @@ const cardSchema = new mongoose.Schema({
 		required: true,
 	},
 	link: {
-    type: String,
-    validate: {
+		type: String,
+		validate: {
 			validator: (v) => /https?:/.test(v),
 			message: "Не соотвествует формату ссылки",
 		},

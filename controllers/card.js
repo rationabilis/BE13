@@ -19,7 +19,7 @@ module.exports.createCard = (req, res) => {
 
 /* Удаляет карточку */
 module.exports.deleteCard = (req, res) => {
-	Card.findByIdAndRemove(req.params._id)
+	Card.findByIdAndRemove(req.params.cardId) /* Исправлен рутинг */
 		.then((card) => res.send({ data: card }))
 		.catch((err) => res.status(500).send({ message: `Возникла ошибка ${err.message}` }));
 };
