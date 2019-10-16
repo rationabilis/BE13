@@ -25,3 +25,4 @@ rules:
     - error
     - always
   no-underscore-dangle: off
+  no-tabs: off
