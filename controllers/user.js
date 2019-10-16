@@ -10,7 +10,10 @@ module.exports.getAllUsers = (req, res) => {
 /* Возвращает пользователя по _id */
 module.exports.getUser = (req, res) => {
 	User.findById(req.params.id)
-		.then((user) => res.send({ data: user }))
+		.then((user) => {
+			if (!user) { res.status(404).send({ message: "Нет пользователя с таким id" }); } else res.send({ data: user });
+		})
+	/* Странно, что, если id короче 25, то ошибку обрабатывает catch. А если 25 символов, то then. */
 		.catch((err, user) => {
 			if (!user) { res.status(404).send({ message: "Нет пользователя с таким id" }); } else res.status(500).send({ message: `Возникла ошибка ${err.message}` });
 		}); /* Добавлена обработка ошибки при запросе несуществующего пользователя */
